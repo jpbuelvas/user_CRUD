@@ -1,4 +1,4 @@
-import {Connection, Repository, EntityManager} from "typeorm";
+import {Connection, Repository, EntityManager, createQueryBuilder} from "typeorm";
 import {GeneralRepository} from "./general.repository";
 import {
     IUserRepository,
@@ -37,7 +37,7 @@ export class UserRepository extends GeneralRepository implements IUserRepository
     async delete(id: number): Promise<User | undefined> {
         const user = await this.repository.findOne(id);
         if (user !== undefined) {
-            await this.repository.delete(id);
+            await this.repository.softDelete(id);
         } else {
             throw new Error(userErrorDescription.USER_NOT_FOUND)
 
@@ -119,8 +119,11 @@ export class UserRepository extends GeneralRepository implements IUserRepository
     async highestBalance(): Promise<User> {
         const users = await this.repository.find();
         const organized = users.sort((a ,b) =>b.balance - a.balance)
-        return organized[0];
-        // query  builder equeryrumnner
+        return userEntityToDomainUser(organized[0]);
+        const query = createQueryBuilder("user");
+        query.select("MAX(user.balance)","max");
+        const result = await query.getRawOne();//probando cosas
+        result.max;
     }
 
 }

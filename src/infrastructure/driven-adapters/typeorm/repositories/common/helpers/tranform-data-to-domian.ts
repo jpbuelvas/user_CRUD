@@ -15,4 +15,4 @@ export function userEntityToDomainUser(userEntity: UserEntity):User{
         deleteDate: userEntity.deleteDate
 
     }
-}
+    }
