@@ -1,0 +1,6 @@
+node_modules
+.idea
+coverage
+GLOBAL - Support Service.iml
+Juridigo-MS_Support.iml
+dist/
