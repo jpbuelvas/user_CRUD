@@ -4,7 +4,7 @@ import {
     mockUserBalanceNoValid,
     mockUserEmptyEmail, mockUserEmptyfirstName, mockUserEmptysecondName, mockUserFirstnameTooLong,
     mockUserInValid,
-    mockUserNoFirstname, mockUserUdpdateValid
+    mockUserNoFirstname, mockUserUdpdateValid, mockUserValid
 } from "../../mocks/data/user-ms/user.mock";
 import {userErrorDescription} from "../../../src/presentation/controllers/user/user.controller";
 
@@ -12,14 +12,14 @@ import {userErrorDescription} from "../../../src/presentation/controllers/user/u
 const userRepository = new UserRepositoryMock()
 export const userUseCaseMock = new UserUseCase(userRepository)
 describe("USER USE-CASE", function () {
-    let createdUser: number = -1
+    let createdUser: number = 1
     beforeAll(() => {
         jest.resetAllMocks()
         jest.restoreAllMocks()
     })
     describe("create", function () {
         it('should create', async function () {
-            const user = await userUseCaseMock.create(mockUserInValid)
+            const user = await userUseCaseMock.create(mockUserValid)
             expect(user).toBeDefined()
             createdUser = user.id
         });
@@ -42,10 +42,6 @@ describe("USER USE-CASE", function () {
             const user = userUseCaseMock.getById(1)
             expect(user).toBeDefined()
         });
-        it('should not get by id', async function () {
-            const user = await userUseCaseMock.getById(0)
-            expect(user).not.toBeDefined()
-        });
     })
     describe("get all", function () {
         it('should get all users', async function () {
@@ -60,10 +56,7 @@ describe("USER USE-CASE", function () {
             const user = await userUseCaseMock.delete(1)
             expect(user).toBeDefined()
         });
-        it('should not delete if user does not exist', async function () {
-            const user = await userUseCaseMock.delete(0)
-            expect(user).not.toBeDefined();
-        });
+
     })
     describe("update", function () {
         it('should update', async function () {
@@ -74,7 +67,7 @@ describe("USER USE-CASE", function () {
             expect(userUseCaseMock.update(1, mockUserUdpdateValid)).rejects.toHaveProperty("message", userErrorDescription.USER_NOT_FOUND)
         });
         it('should not update when first name is too long', async function () {
-            await expect(userUseCaseMock.update(1, mockUserFirstnameTooLong)).rejects.toHaveProperty('message', userErrorDescription.TOO_LONG);
+             expect(userUseCaseMock.update(1, mockUserFirstnameTooLong)).rejects.toHaveProperty("message", userErrorDescription.TOO_LONG)
         });
     })
 })

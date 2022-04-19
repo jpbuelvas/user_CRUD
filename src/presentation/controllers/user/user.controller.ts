@@ -26,13 +26,16 @@ export type UserParamsRequestInput = {
 }
 export enum userErrorDescription {
     FIRST_NAME_FAILED_PARAM = "First name is mandatory, should not be empty",
+    FIRST_NAME_EMPTY = "el valor nulo en la columna «firstName» de la relación «user_entity» viola la restricción de no nulo",
     SECOND_NAME_FAILED_PARAM = "Second name is mandatory, should not be empty",
     LAST_NAME_FAILED_PARAM = "Last name is mandatory, should not be empty",
+    LAST_NAME_EMPTY ="el valor nulo en la columna «lastName» de la relación «user_entity» viola la restricción de no nulo",
     SECOND_LAST_NAME_FAILED_PARAM = "Last name is mandatory, should not be empty",
     EMAIL_FAILED_PARAM = "Description is mandatory, should not be empty",
+    EMAIL_EMPTY = "el valor nulo en la columna «email» de la relación «user_entity» viola la restricción de no nulo",
     BALANCE_FAILED_PARAM ="Balance must be mandatory and greater than 0 ",
     BODY_NOT_PROVIDED = "Body was not provided",
-    USER_ALREADY_EXIST = "A user with the same title or code already exist",
+    USER_ALREADY_EXIST = "A user with same id already exist",
     PARENT_USER_NOT_FOUND = "Parent user with given id does not exist",
     TOO_LONG = "too long, it should not have a length greater than 30 characters",
     ID_NOT_PROVIDED = "Cannot start this operation without an id",

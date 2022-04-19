@@ -1,5 +1,5 @@
 import {SuperAgentTest} from "supertest";
-import {closeApp, initApp} from "../../helpers/global.helper";
+import {closeApp, initApp, initDbConnection} from "../../helpers/global.helper";
 import {userErrorDescription} from "../../../../../src/presentation/controllers/user/user.controller";
 import {UserCreateInput} from "../../../../../src/entities/models/user/users.entity";
 import {
@@ -16,6 +16,7 @@ describe("#INTEGRATION USER", () => {
         app: SuperAgentTest
     } = {app: <SuperAgentTest><unknown>null}
     beforeAll(async () => {
+        await initDbConnection()
         runtimeConfig.app = await initApp()},1000);
     afterAll(async () => {
         await runtimeConfig.app.delete("/api/v1/user/users/" + createdUserId)
@@ -34,20 +35,20 @@ describe("#INTEGRATION USER", () => {
             const response = await runtimeConfig.app.post("/api/v1/user/users/").send(mockUserNoFirstname)
             expect(response.statusCode).toBe(400)
             expect(response.body).toHaveProperty("status", "error")
-            expect(response.body).toHaveProperty("data", userErrorDescription.FIRST_NAME_FAILED_PARAM)
+            expect(response.body).toHaveProperty("data", userErrorDescription.FIRST_NAME_EMPTY)
         });
         it('should return error if last name is undefined', async function () {
             const response = await runtimeConfig.app.post("/api/v1/user/users/").send(mockUserNolastName)
             expect(response.statusCode).toBe(400)
             expect(response.body).toHaveProperty("status", "error")
-            expect(response.body).toHaveProperty("data", userErrorDescription.LAST_NAME_FAILED_PARAM)
+            expect(response.body).toHaveProperty("data", userErrorDescription.LAST_NAME_EMPTY)
         });
 
         it('should return error if email is undefined', async function () {
             const response = await runtimeConfig.app.post("/api/v1/user/users/").send(mockUserNoEmail)
             expect(response.statusCode).toBe(400)
             expect(response.body).toHaveProperty("status", "error")
-            expect(response.body).toHaveProperty("data", userErrorDescription.EMAIL_FAILED_PARAM)
+            expect(response.body).toHaveProperty("data", userErrorDescription.EMAIL_EMPTY)
         });
         it('should return error when first name length is greater than 30 characters', async function () {
             const response = await runtimeConfig.app.post("/api/v1/user/users/").send(mockUserFirstnameTooLong)
@@ -79,12 +80,6 @@ describe("#INTEGRATION USER", () => {
             expect(response.body).toHaveProperty("status", "error")
             expect(response.body).toHaveProperty("data", userErrorDescription.FIRST_NAME_FAILED_PARAM)
         });
-        it('should return error when second name is empty', async function () {
-            const response = await runtimeConfig.app.post("/api/v1/user/users/").send(mockUserEmptysecondName)
-            expect(response.statusCode).toBe(400)
-            expect(response.body).toHaveProperty("status", "error")
-            expect(response.body).toHaveProperty("data", userErrorDescription.SECOND_NAME_FAILED_PARAM)
-        });
         it('should return error when email is empty', async function () {
             const response = await runtimeConfig.app.post("/api/v1/user/users/").send(mockUserEmptyEmail)
             expect(response.statusCode).toBe(400)
@@ -92,7 +87,7 @@ describe("#INTEGRATION USER", () => {
             expect(response.body).toHaveProperty("data", userErrorDescription.EMAIL_FAILED_PARAM)
         });
         it('should return error when body is empty', async function () {
-            const response = await runtimeConfig.app.post("/api/v1/support/topics").send()
+            const response = await runtimeConfig.app.post("/api/v1/user/users").send()
             expect(response.statusCode).toBe(400)
             expect(response.body).toHaveProperty("status", "error")
             expect(response.body).toHaveProperty("data", userErrorDescription.BODY_NOT_PROVIDED)

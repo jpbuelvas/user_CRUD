@@ -1,4 +1,4 @@
-import {Connection, Repository, EntityManager, createQueryBuilder} from "typeorm";
+import {Connection, Repository, createQueryBuilder} from "typeorm";
 import {GeneralRepository} from "./general.repository";
 import {
     IUserRepository,
@@ -22,7 +22,7 @@ export class UserRepository extends GeneralRepository implements IUserRepository
         let userData: UserEntity = new UserEntity("firstName", "LastName", "email");
         userData.firstName = input.firstName;
         if (input.secondName !== undefined) {
-            userData.lastName = input.secondName;
+            userData.secondName = input.secondName;
         }
         userData.lastName = input.lastName;
         if (input.secondLast !== undefined) {
@@ -111,19 +111,22 @@ export class UserRepository extends GeneralRepository implements IUserRepository
         const users = await this.repository.find();
         let average = 0;
         for (const user of users) {
-            average+=user.balance;
+            let user_domain = userEntityToDomainUser(user);
+            average+=user_domain.balance;
         }
         return average/users.length;
     }
 
     async highestBalance(): Promise<User> {
-        const users = await this.repository.find();
-        const organized = users.sort((a ,b) =>b.balance - a.balance)
-        return userEntityToDomainUser(organized[0]);
-        const query = createQueryBuilder("user");
-        query.select("MAX(user.balance)","max");
-        const result = await query.getRawOne();//probando cosas
-        result.max;
+        const user = await this.repository.createQueryBuilder("user")
+            .orderBy("user.balance","DESC")
+            .getOne();
+        if(user){
+            return userEntityToDomainUser(user);
+        }else{
+            throw new Error(userErrorDescription.USER_NOT_FOUND);
+        }
+
     }
 
 }

@@ -23,19 +23,17 @@ export class UserUseCase implements IUserUseCase {
     async delete(id: number): Promise<User | undefined> {
         const userIdFound = await this.userRepository.getById(id);
         if (userIdFound === undefined) {
-            throw new Error(userErrorDescription.USER_ALREADY_EXIST)
+            throw Error(userErrorDescription.USER_NOT_FOUND)
         }
         return this.userRepository.delete(id);
     }
 
-    getAll(): Promise<Array<User>> {
-        return this.userRepository.getAll();
-    }
+
 
     async getById(id: number): Promise<User | undefined> {
         const userIdFound = await this.userRepository.getById(id);
         if (userIdFound === undefined) {
-            throw new Error(userErrorDescription.USER_ALREADY_EXIST)
+            throw Error(userErrorDescription.PARENT_USER_NOT_FOUND)
         }
         return userIdFound;
     }
@@ -43,7 +41,7 @@ export class UserUseCase implements IUserUseCase {
     async update(id: number, input: UserUpdateInput): Promise<User | undefined> {
         const userIdFound = await this.userRepository.getById(id);
         if (userIdFound === undefined) {
-            throw new Error(userErrorDescription.USER_ALREADY_EXIST)
+            throw Error(userErrorDescription.USER_ALREADY_EXIST)
         }
         const user: UserUpdateInput = this.validateUpdateInput(input);
         return this.userRepository.update(id, user);
@@ -117,5 +115,8 @@ export class UserUseCase implements IUserUseCase {
 
     async highestBalance(): Promise<User> {
        return await this.userRepository.highestBalance();
+    }
+    getAll(): Promise<Array<User>> {
+        return this.userRepository.getAll();
     }
 }

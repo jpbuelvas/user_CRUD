@@ -26,14 +26,14 @@ const userRoute = () => {
     router.route('/')
         .get(routeAdapter(userController.getAll))
         .post(routeAdapter(userController.create))
+    router.route('/average')
+        .get(routeAdapter(userController.average))
+    router.route('/highest')
+        .get(routeAdapter(userController.highestBalance))
     router.route('/:id')
         .patch(routeAdapter(userController.update))
         .delete(routeAdapter(userController.delete))
         .get(routeAdapter(userController.getById))
-    router.route('/average')
-        .get(routeAdapter(userController.average))
-    router.route('/highestBalance')
-        .get(routeAdapter(userController.highestBalance))
     return router;
 }
 

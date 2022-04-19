@@ -5,7 +5,7 @@ info:
   title: "CRUD USER"
   termsOfService: "http://swagger.io/terms/"
 host: "localhost:2980"
-basePath: "/v1"
+basePath: "/api/v1/user"
 tags:
 - name: "user"
   description: "Operations about user"
@@ -16,7 +16,7 @@ schemes:
 - "https"
 - "http"
 paths:
-  /user:
+  /user/:
     post:
       tags:
       - "user"
@@ -33,6 +33,46 @@ paths:
         required: true
         schema:
           $ref: "#/definitions/User"
+      responses:
+        default:
+          description: "successful operation"
+  /average:
+    get:
+      tags:
+      - "user"
+      summary: "get average balance users"
+      description: "average balance users"
+      operationId: "averageUsers"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "average users"
+        required: true
+        schema:
+          $ref: "#/definitions/average"
+      responses:
+        default:
+          description: "successful operation"
+  /highestBalance:
+    get:
+      tags:
+      - "user"
+      summary: "get the highest balance among users"
+      description: "get the highest balance among users"
+      operationId: "highestBalanceUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "highest Balance user"
+        required: true
+        schema:
+          $ref: "#/definitions/highest"
       responses:
         default:
           description: "successful operation"

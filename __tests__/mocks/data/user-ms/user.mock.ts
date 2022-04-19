@@ -95,14 +95,13 @@ export const mockUserNoFirstname = {
 };
 
 export const mockUserNolastName = {
-    firstName: "firstName",
-    lastName: "lastName",
-    secondLast: "secondLast",
-    email: "email@gmail.com",
+    firstName: "firstNameNo",
+    secondLast: "secondLastNo",
+    email: "email@gmail.com.co",
     balance: 5000
 };
 export const mockUserFirstnameTooLong = {
-    firstName: "firstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstName",
+    firstName: "firstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstNamefirstName",
     secondName: "secondName",
     lastName: "lastName",
     secondLast: "secondLast",
@@ -142,11 +141,11 @@ export const mockUserEmptyfirstName ={
     balance: 5000
 }
 export const mockUserEmptysecondName ={
-    firstName: "firstName",
+    firstName: "firstNameUser",
     secondName: "",
-    lastName: "lastName",
-    secondLast: "secondLast",
-    email: "email@gmail.com",
+    lastName: "lastNameUser",
+    secondLast: "secondLastUser",
+    email: "emailUser@gmail.com",
     balance: 5000
 }
 export const mockUserEmptyEmail ={
